@@ -2,8 +2,6 @@ package games;
 
 import java.util.Scanner;
 
-import jdk.internal.ref.Cleaner;
-
 public class Jogar {
 
 	public static void main(String[] args) {

@@ -6,52 +6,86 @@ import java.util.Random;
 public class CampoMinado {
 
 	public static void main(String[] args) {
-		imprimir(gerarTabuleiro());;
+		iniciar();
 	}
+	
+	static void iniciar() {
+		imprimir(gerarTabuleiro());
+	}
+	
+	
 	
 	static String[][] gerarTabuleiro() {
 		String[][] tabuleiro = new String[16][16];
-		int lin,col;
-		boolean sorteado = true;
 		Random random = new Random();
+		int lin,col;
 		
+		//GERA AS POSIÇÕES DAS BOMBAS
+		for (int i = 0; i < 16; ) {
+	
+			lin = random.nextInt((15));
+			col = random.nextInt((15));
+			
+			//0 indica bomba
+			if(tabuleiro[lin][col] == "|__0__|") {
+				gerarTabuleiro();
+			}else {
+				tabuleiro[lin][col] = "|__0__|";
+				i++;
+			}
+							
+		}
+		
+		//COMPLETA AS POSIÇÕES QUE NÃO TEM BOMBA
 		for (int i = 0; i < tabuleiro.length; i++) {
-			for (int j = 0; j < tabuleiro[i].length; j++) {
-				tabuleiro[i][j] = "|_____|";
+			for (int j = 0; j < tabuleiro[i].length; j++) {		
+				if (tabuleiro[i][j] != "|__0__|") {
+					tabuleiro[i][j] = "|_____|";
+				}				
 			}
 		}
 		return tabuleiro;
 	}
 	
-	static int[][] criarBombas() {
-		int[][] linha = new int[16][16];
-		int lin,col;
-		boolean sorteado = true;
-		Random random = new Random();
+
+	static String[][] prepararGame(String[][] tabuleiro){
+		String[][] numero = new String[16][16];
+		Random ent = new Random();
+		int bombas = 0, l=0,c=0;
 		
-			for (int i = 0; i < 8; ) {
-				while(sorteado) {
-					lin = random.nextInt((15));
-					col = random.nextInt((15));
-					
-					//-1 indica bomba
-					if(linha[lin][col] == -1) {
-						sorteado = true;
-					}else {
-						linha[lin][col] = -1;
-						i++;
-						if (i == 8) {
-							sorteado=false;
-						}
-						/*System.out.print("linha = "+lin+" ");
-						System.out.print("coluna = "+col+" ");
-						System.out.print(linha[lin][col] +" ");
-						System.out.println();*/
-					}
-				}				
+		
+		for (int i = 0; i < numero.length; i++) {
+			for (int j = 0; j < numero[i].length; j++) {
+				//ATRIBUINDO AS BOMBAS AS POSIÇÕES DO TABULEIRO
+				numero[i][j] = tabuleiro[i][j];
+				
+				//VERIFICANDO SE NA POSIÇÃO TEM BOMBA E ALIMENTA O CONTADOR EM CASO POSITIVO
+				if (numero[i][j] == "__0__") {
+					bombas++;
+				}
 			}
-			return linha;
 		}
+		
+		
+		//USUARIO ABRINDO AS POSIÇÕES DO TABULEIRO
+		while(bombas > 0) {
+			System.out.println("ENTRE COM A POSIÇÃO DA LINHA:");
+			l = ent.nextInt();
+			System.out.println("ENTRE COM A POSIÇÃO DA COLUNA:");
+			c = ent.nextInt();
+			
+			if (numero[l][c] == "__0__") {
+				System.out.print("VOCÊ PERDEU!");
+				bombas = 0;
+			}else {
+				
+			}
+		}		
+		return numero;
+	}
+	
+	
+	
 	
 	static void imprimir(String[][] tabuleiro){
 		for (int i = 0; i < tabuleiro.length; i++) {
