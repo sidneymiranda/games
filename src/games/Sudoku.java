@@ -4,50 +4,72 @@ import java.util.*;
 public class Sudoku {
 
 	public static void main(String[] args) {
-		imprimir(gerarMatriz());
-	}
-	public static int[][] gerarMatriz(){
-		int[][] matriz = new int[9][9];
-		
-		int n = 0;
-		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz[i].length; j++) {
-				matriz[i][j] = 0;
-			}
-		}
-		return matriz;
+		iniciarGame();
 	}
 	
-	public static String[][] preencherMatriz(int[][] array){
-		String[][] num = new String [9][9];
-		Scanner sc = new Scanner(System.in);
-
-			System.out.println("INFORME A LINHA: ");
-			int a = sc.nextInt();
-			System.out.println("INFORME A COLUNA: ");
-			int b = sc.nextInt();
-			System.out.println("INFORME O VALOR DE 1 A 9:");
-			num[a][b] = sc.next();
-			
-		return num;
+	public static void iniciarGame() {
+		imprimir(gerarMatriz());
 	}
-
-	public static boolean verificarJogo(int[][] matriz) {
-		boolean resp=false;
+	
+	//GERANDO A MATRIZ COM OS NÚMEROS DEFAULT
+	public static int[][] gerarMatriz(){
+		int[][] matriz = new int[9][9];
+		Random rd = new Random();
+		int l= 0, c=0;
+		
+		for (int i = 0; i < 10; i++) {
+			l = rd.nextInt(9);
+			c = rd.nextInt(9);
+			matriz[l][c] = rd.nextInt(8)+1;
+		}
+		
 		for (int i = 0; i < matriz.length; i++) {
 			for (int j = 0; j < matriz[i].length; j++) {
-				//VERIFICANDO SE NUMERO É DIFERENTE NA LINHA ATUAL DO LAÇO
-				int k = 0, l = 0;
-				for (; k < matriz[j].length; k++,l++) {
-					if (matriz[i][j] == matriz[k][l]) {
-						resp = false;
-					}else {
-						resp = true;
+				
+					if (matriz[i][j] == 0) {
+						matriz[i][j] = 0;
 					}
 				}
 			}
-		}
-		return resp;
+		return matriz;
+	}
+	
+	//INTERAÇÃO DO USUÁRIO NO GAME
+	public static int[][] solicitarNumeros(int[][] array){
+		int[][] num = new int [9][9];
+		Scanner sc = new Scanner(System.in);
+		boolean fim = false;
+		
+		System.out.println("INFORME A LINHA: ");
+		int lin = sc.nextInt();
+		System.out.println("INFORME A COLUNA: ");
+		int col = sc.nextInt();
+		System.out.println("INFORME O VALOR DE 1 A 9:");
+		num[lin][col] = sc.nextInt();
+		
+		for (int x = 0; x < num[0].length; x++) {
+			//VERIFICA SE NÚMERO ESTÁ SE REPETINDO NA LINHA DA POSIÇÃO CORRESPONDENTE À ENTRADA DO USER
+			if (num[lin][col] == num[lin][x]) {
+				System.out.println("OPS, ESTE NÚMERO JÁ ESTÁ NA LINHA ATUAL!");
+				System.out.println("INFORME A LINHA: ");
+				lin = sc.nextInt();
+				System.out.println("INFORME A x: ");
+				col = sc.nextInt();
+				System.out.println("INFORME O VALOR DE 1 A 9:");
+				num[lin][col] = sc.nextInt();
+			
+			//VERIFICA SE NÚMERO ESTÁ SE REPETINDO NA COLUNA DA POSIÇÃO CORRESPONDENTE À ENTRADA DO USER
+			}else if (num[lin][col] == num[x][col]) {
+				System.out.println("OPS, ESTE NÚMERO JÁ ESTÁ NA COLUNA ATUAL!");
+				System.out.println("INFORME A LINHA: ");
+				lin = sc.nextInt();
+				System.out.println("INFORME A x: ");
+				col = sc.nextInt();
+				System.out.println("INFORME O VALOR DE 1 A 9:");
+				num[lin][col] = sc.nextInt();
+			}
+		}		
+		return num;
 	}
 	
 	
@@ -55,13 +77,13 @@ public class Sudoku {
 		for (int i = 0; i < matriz.length; i++) {
 			for (int j = 0; j < matriz[i].length; j++) {
 				System.out.print(matriz[i][j]);
-				if ((j+1) % 3 == 0) {
-					System.out.print(" | ");
+				if (j == 2 || j == 5) {
+					System.out.print("  ");
 				}
 			}
 			System.out.println();
-			if ((i+1) % 3 == 0) {
-				System.out.println("-----------------");
+			if (i==2 || i ==5) {
+				System.out.println();
 			}
 		}
 	}

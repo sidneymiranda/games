@@ -6,34 +6,9 @@ import java.util.Random;
 public class CampoMinado {
 
 	public static void main(String[] args) {
-		exibirMenu();
+		imprimir(gerarTabuleiro());;
 	}
 	
-	static String[] cadastrarUsuario() {
-		String[] dados = new String[2];
-		Scanner ent = new Scanner(System.in);
-		
-			System.out.println("INFORME O SEU NOME:");
-			dados[0] = ent.next();
-			System.out.println("INFORME A SUA MATRÍCULA:");
-			dados[1] = ent.next();
-
-		return dados;
-	}
-	
-	static int exibirMenu() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("=============================");
-		System.out.println("       MENU - GAMES       ");
-		System.out.println("=============================");
-		System.out.println("(1) Campo Minado          ");
-		System.out.println();
-		System.out.println("(2) Sudoku - Logic Problem");
-		int num = sc.nextInt();
-		
-		return num;
-	}
-
 	static String[][] gerarTabuleiro() {
 		String[][] tabuleiro = new String[16][16];
 		int lin,col;
