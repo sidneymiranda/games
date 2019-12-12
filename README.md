@@ -1,4 +1,4 @@
-# games
+# Projeto desenvolvido - Sudoku e Campo Minado
 
 Este projeto foi desenvolvido por mim, Sidney Miranda, Bruno Brabosa e Luana Pasquet.
 
